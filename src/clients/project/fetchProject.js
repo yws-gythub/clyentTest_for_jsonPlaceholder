@@ -6,6 +6,14 @@ const findList = () => {
   return axios({ method: "get", url: listUrl });
 };
 
+const findOne = (project_id) => {
+  return axios({
+    method: "get",
+    url: listUrl + project_id,
+  });
+};
+
 export const fetchProject = {
-  findList
+  findList,
+  findOne,
 };

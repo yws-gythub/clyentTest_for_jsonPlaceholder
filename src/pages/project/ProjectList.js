@@ -1,12 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  projectListSelector,
-  //projectListAction,
-  projectListActionGetProjectList
-} from "../../slices/project/projectList";
-import ProjectRow from "../../components/LIST/ProjectRow";
-//import { Rows } from "../../components/LIST/Rows";
+import { projectListSelector, asyncDispatch_ProjectList } from "../../slices/project/projectList";
+import { Rows } from "../../components/LIST/Rows";
 
 export default function ProjectList() {
   const dispatch = useDispatch();
@@ -15,17 +10,8 @@ export default function ProjectList() {
 
   useEffect(() => {
     //dispatch(projectListAction.getProjectList());
-    dispatch(projectListActionGetProjectList());
+    dispatch(asyncDispatch_ProjectList());
   }, [dispatch]);
-
-  // const rows = () => {
-  //   if (!projectList || projectList.length === 0)
-  //     return <div> - - - - - - </div>;
-
-  //   return projectList.map((row, i) => {
-  //     return <ProjectRow key={i} row={row} />;
-  //   });
-  // };
 
   return (
     <div>
@@ -33,8 +19,7 @@ export default function ProjectList() {
       {count}
       <div>
         {projectList.map((row, i) => (
-          <ProjectRow key={i} row={row} />
-          //<Rows.ProjectList key={i} row={row} />
+          <Rows.ProjectList key={i} row={row} />
         ))}
       </div>
     </div>
