@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { asyncDispatch_Project, projectSelector } from "../../slices/project/project";
+import { asyncDispatch, asyncDispatch_Project, projectSelector } from "../../slices/project/project";
 
 export default function Project_ReduxStoreState({ match }) {
   const id = match.params.project_id;
@@ -9,8 +9,9 @@ export default function Project_ReduxStoreState({ match }) {
   const project = useSelector(projectSelector);
 
   useEffect(() => {
-    dispatch(asyncDispatch_Project(id));
-  }, [id]);
+    //dispatch(asyncDispatch_Project(id));
+    dispatch(asyncDispatch.findOne(id));
+  }, [id, dispatch]);
 
   return (
     <div>

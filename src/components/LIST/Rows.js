@@ -6,7 +6,7 @@ export const Rows = {
     let react_redux = row.id % 2 ? "reactState" : "reduxStoreState";
     return (
       <div>
-        {row.id}.<Link to={`/project/${react_redux}/${row.id}`}> {row.title}</Link>
+        {row.id}. [{react_redux}] <Link to={`/project/${react_redux}/${row.id}`}>{row.title}</Link>
       </div>
     );
   },
