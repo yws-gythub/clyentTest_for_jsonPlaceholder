@@ -7,7 +7,6 @@ const initialState = {
   title: null,
   userId: null,
   completed: null,
-  newId: null,
 };
 
 const projectSlice = createSlice({
@@ -31,9 +30,7 @@ const projectSlice = createSlice({
     changeInput: (state, { payload }) => {
       state[payload.name] = payload.value;
     },
-    cudComplete: (state, { payload }) => {
-      state.newId = payload.id;
-    },
+    cudComplete: (state, { payload }) => {},
   },
 });
 
