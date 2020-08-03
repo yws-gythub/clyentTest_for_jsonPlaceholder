@@ -24,7 +24,7 @@ const create = (project) => {
 const update = (project) => {
   return axios({
     method: "patch",
-    url: listUrl + project.project_id,
+    url: listUrl + project.id,
     data: project,
   });
 };
