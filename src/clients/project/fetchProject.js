@@ -29,14 +29,14 @@ const update = (project) => {
   });
 };
 
-const deleteOne = (project_id) => {
-  return axios({ method: "delete", url: listUrl + project_id });
-};
+// const deleteOne = (project_id) => {
+//   return axios({ method: "delete", url: listUrl + project_id });
+// };
 
 export const fetchProject = {
   findList,
   findOne,
   create,
   update,
-  deleteOne,
+  deleteOne: (project_id) => axios({ method: "delete", url: listUrl + project_id }),
 };

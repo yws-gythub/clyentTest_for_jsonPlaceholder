@@ -21,14 +21,32 @@ export default function Project_ReactState({ match }) {
 
   return (
     <div>
-      <h1>Get project data using useState() React Hook.</h1>
+      <h1>
+        Get project data using <span style={{ color: "blue" }}>useState() React Hook.</span>
+      </h1>
       <div>ID: {project.id}</div>
       <div>TITLE: {project.title}</div>
       <div>USER_ID: {project.userId}</div>
       <div>COMPLETED: {project.completed ? "true" : "false"}</div>
       <br />
       <div>
-        <Link to="/project">Link to project list</Link>
+        <Link to="/project">Link to project list.</Link>
+        <br />
+        <br />
+        <Link to={`/project/update/${project.id}`}>Link to project update.</Link>
+        <br />
+        <br />
+        <button
+          onClick={() => {
+            if (window.confirm("delete?")) {
+              fetchProject.deleteOne(project.id).then(() => {
+                window.alert("delete complete.");
+              });
+            }
+          }}
+        >
+          Delete this project.
+        </button>
       </div>
     </div>
   );

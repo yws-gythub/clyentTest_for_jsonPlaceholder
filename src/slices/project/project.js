@@ -1,4 +1,5 @@
 import { fetchProject } from "../../clients/project/fetchProject";
+// import { useHistory } from "react-router-dom";
 
 const { createSlice } = require("@reduxjs/toolkit");
 
@@ -14,7 +15,7 @@ const projectSlice = createSlice({
   initialState,
   reducers: {
     getProject: (state, { payload }) => payload,
-    //
+    // 이것은
     // 아래와 모두 같다.
     //
     // getProject: (state, { payload }) => {
@@ -27,23 +28,27 @@ const projectSlice = createSlice({
     //   state.userId = payload.userId;
     //   state.completed = payload.completed;
     // },
-    changeInput: (state, { payload }) => {
-      state[payload.name] = payload.value;
-    },
-    cudComplete: (state, { payload }) => {},
+    //
+    // useState를 써서 사용안함
+    // changeInput: (state, { payload }) => {
+    //   state[payload.name] = payload.value;
+    // },
+    // cudComplete: (state, { payload }) => {
+    //   state.id = payload.id;
+    // },
   },
 });
 
-export const { getProject, changeInput, cudComplete } = projectSlice.actions;
+export const { getProject } = projectSlice.actions;
 export const projectSelector = (state) => state.project;
 export default projectSlice.reducer;
 
-export function asyncDispatch_Project(id) {
-  return async (dispatch) => {
-    const result = await fetchProject.findOne(id);
-    dispatch(getProject(result.data));
-  };
-}
+// export function asyncDispatch_Project(id) {
+//   return async (dispatch) => {
+//     const result = await fetchProject.findOne(id);
+//     dispatch(getProject(result.data));
+//   };
+// }
 
 export const asyncDispatch = {
   findOne: (id) => {
@@ -52,22 +57,22 @@ export const asyncDispatch = {
       dispatch(getProject(result.data));
     };
   },
-  create: (project) => {
-    return async (dispatch) => {
-      const result = await fetchProject.create(project);
-      dispatch(cudComplete(result.data));
-    };
-  },
-  update: (project) => {
-    return async (dispatch) => {
-      const result = await fetchProject.update(project);
-      dispatch(cudComplete(result.data));
-    };
-  },
-  deleteOne: (id) => {
-    return async (dispatch) => {
-      const result = await fetchProject.deleteOne(id);
-      dispatch(cudComplete(result.data));
-    };
-  },
+  // create: (project) => {
+  //   return async (dispatch) => {
+  //     const result = await fetchProject.create(project);
+  //     dispatch(cudComplete(result.data));
+  //   };
+  // },
+  // update: (project) => {
+  //   return async (dispatch) => {
+  //     const result = await fetchProject.update(project);
+  //     dispatch(cudComplete(result.data));
+  //   };
+  // },
+  // deleteOne: (id) => {
+  //   return async (dispatch) => {
+  //     const result = await fetchProject.deleteOne(id);
+  //     dispatch(cudComplete(result.data));
+  //   };
+  // },
 };

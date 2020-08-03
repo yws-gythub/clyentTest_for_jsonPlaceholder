@@ -1,61 +1,61 @@
-import React, { useEffect, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { asyncDispatch, projectSelector, changeInput, asyncDispatch_Project } from "../../slices/project/project";
+import { fetchProject } from "../../clients/project/fetchProject";
 
 export default function ProjectForm({ match, history }) {
   const id = match.params.project_id;
-  const dispatch = useDispatch();
-  const project = useSelector(projectSelector);
+  const buttonText = id ? "Update" : "Create";
+
+  const initData = { id: null, userId: null, title: null, completed: null };
+  const [project, setProject] = useState(initData);
 
   useEffect(() => {
-    if (id) dispatch(asyncDispatch.findOne(id));
-  }, [id, dispatch]);
+    if (id)
+      fetchProject.findOne(id).then((res) => {
+        setProject(res.data);
+      });
+  }, [id]);
 
-  const title_onChange1 = (e) => {
-    console.log(e.target.value);
+  const inputChange = (e) => {
+    const { name, value, checked } = e.target;
+    const Value = name === "completed" ? checked : value;
+    setProject({ ...project, [name]: Value });
   };
 
-  const title_onChange2 = (e) => {
-    const { name, value } = e.target;
-    console.log(name, value);
-    console.log("project", project);
+  const button_onClick = (e) => {
+    if ((!project.id && window.confirm("create?")) || (project.id && window.confirm("update?"))) {
+      if (!project.id)
+        fetchProject.create(project).then((res) => {
+          //Create
+          console.log("res", res.data);
+          window.alert(res.data.id);
+          history.push("/project");
+        });
+      else
+        fetchProject.update(project).then((res) => {
+          //Update
+          console.log("res", res.data);
+          window.alert(JSON.stringify(res.data));
+          //history.push("/project");
+        });
+    }
   };
-
-  const button_onClick = useCallback(() => {
-    if (!project.id && window.confirm("create?")) {
-      dispatch(asyncDispatch.create(project));
-      //history.push("/project/reduxStoreState/");
-    }
-    if (project.id && window.confirm("update?")) {
-      dispatch(asyncDispatch.update(project));
-    }
-  }, [project]);
-
-  const inputChange = useCallback(
-    (e) => {
-      const { name, value, checked } = e.target;
-      const Value = name === "completed" ? checked : value;
-
-      dispatch(changeInput({ id: id, name: name, value: Value }));
-    },
-    [dispatch]
-  );
 
   return (
     <div>
       {id && <label>Project ID : {id}</label>}
+      <br />
       Title
       <input type="text" name="title" defaultValue={project.title} onChange={inputChange} />
       <br />
       User ID
-      <input type="text" name="userId" defaultChecked={project.userId} onChange={inputChange} />
+      <input type="text" name="userId" defaultValue={project.userId} onChange={inputChange} />
       <br />
       Completed
       <input type="checkbox" name="completed" defaultChecked={project.completed} onChange={inputChange} />
       <br />
       <br />
-      <button onClick={button_onClick}> create Project </button>
+      <button onClick={button_onClick}> {buttonText} Project </button>
       <br />
       <br />
       <div>

@@ -13,6 +13,7 @@ export default function App() {
         <Route exact path="/project/reactState/:project_id" component={Project_ReactState} />
         <Route exact path="/project/reduxStoreState/:project_id" component={Project_ReduxStoreState} />
         <Route exact path="/project/create" component={ProjectForm} />
+        <Route exact path="/project/update/:project_id" component={ProjectForm} />
         <Redirect to="/project" />
       </Switch>
     </Router>
