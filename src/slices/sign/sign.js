@@ -1,17 +1,19 @@
 const { createSlice } = require("@reduxjs/toolkit");
 
-let signedUser = JSON.parse(sessionStorage.getItem("signedUser"));
-const initialState = signedUser ? { signedUser } : {};
+let user = JSON.parse(sessionStorage.getItem("user"));
+const initialState = user ? { loggedIn: null, user } : {};
 
 const signSlice = createSlice({
   name: "signSlice",
   initialState,
   reducers: {
-    signRequest: (state, { payload }) => payload,
+    signIn: (state, { payload }) => {
+      (state.loggedIn = true), (state.user = payload.user);
+    },
   },
 });
 
-export const { signRequest } = signSlice.actions;
+export const { signIn } = signSlice.actions;
 export const signSelector = (state) => state.sign;
 export default signSlice.reducer;
 

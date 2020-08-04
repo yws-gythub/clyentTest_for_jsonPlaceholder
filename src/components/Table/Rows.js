@@ -10,4 +10,10 @@ export const Rows = {
       </div>
     );
   },
+  OtherList1: () => {
+    return <></>;
+  },
+  OtherList2: () => {
+    return <></>;
+  },
 };

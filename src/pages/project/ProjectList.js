@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { projectListSelector, asyncDispatch_ProjectList } from "../../slices/project/projectList";
-import { Rows } from "../../components/LIST/Rows";
+import { Rows } from "../../components/Table/Rows";
 import { Link } from "react-router-dom";
 
 export default function ProjectList() {

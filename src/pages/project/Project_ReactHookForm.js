@@ -2,16 +2,49 @@ import React, { useEffect, useState } from "react";
 import { fetchProject } from "../../clients/project/fetchProject";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { Selects } from "../../components/HTML/Selects";
+import { Selects } from "../../components/FormTag/Selects";
 
 export default function Project_ReactHookForm({ match }) {
   const id = match.params.project_id;
-  const { register, handleSubmit, watch, errors, setValue } = useForm({
+  const { register, handleSubmit, watch, errors, setValue, unregister } = useForm({
     defaultValues: {
       //selectProject: "7", // use setValue to async Component.
     },
   });
 
+  const initData = { id: null, title: null, userId: null, completed: null, selectProject: null };
+
+  const [project, setProject] = useState(initData);
+
+  useEffect(() => {
+    fetchProject.findOne(id).then((res) => {
+      console.log("list useEffect");
+      setProject(res.data);
+      setValue("selectProject", res.data.id);
+    });
+  }, [id]);
+
+  const onSubmit = (data) => {
+    console.log("onSubmit", data);
+    fetchProject.update(data).then((res) => {
+      console.log("res", res.data);
+      setProject(data);
+      alert("update complete.");
+    });
+  };
+
+  const selectChange = (e) => {
+    const idx = e.target.selectedIndex;
+    console.log(e.target[idx].text);
+    setValue("title", e.target[idx].text);
+    setProject({ ...project, title: e.target[idx].text, selectProject: e.target.value });
+  };
+
+  const titleChange = (e) => {
+    //setProject({ ...project, title: e.target.value });
+  };
+
+  /* useState를 두 개 썼을 때
   const initData = {
     id: null,
     title: null,
@@ -52,6 +85,7 @@ export default function Project_ReactHookForm({ match }) {
   const titleChange = (e) => {
     setProject({ ...project, title: e.target.value });
   };
+  */
 
   return (
     <div>
@@ -68,8 +102,11 @@ export default function Project_ReactHookForm({ match }) {
         <br />
         TITLE - require test.
         <input name="title" type="text" defaultValue={project.title} ref={register({ required: true })} onChange={titleChange} />
+        &nbsp;===&nbsp;
+        <Selects.ProjectList register={register} name="selectProject" onChange={selectChange} />
+        (Selects Component)
+        <br />
         {errors.title && "TITLE is required"}
-        === <Selects.ProjectList register={register} name="selectProject" onChange={selectChange} />
         <br />
         COMPLETED
         <input name="completed" type="checkbox" defaultChecked={project.completed} ref={register} />

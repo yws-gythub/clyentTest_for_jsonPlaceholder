@@ -7,6 +7,7 @@ export const Selects = {
 
     useEffect(() => {
       fetchProject.findList().then((res) => {
+        console.log("select useEffect");
         setProjectList(res.data);
       });
     }, []);
@@ -20,5 +21,11 @@ export const Selects = {
         ))}
       </select>
     );
+  },
+  OtherSelect1: () => {
+    return <></>;
+  },
+  OtherSelect2: () => {
+    return <></>;
   },
 };
